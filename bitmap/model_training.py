@@ -207,3 +207,11 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+"""
+TODO:
+- Canvas - show available drawings -> Draw -> Recognize with different models (+ probability?)
+- more drawings -> lower accuracy
+- Grid Search, Cross Validation, ROC Curve, AUC, Confusion Matrix, Compare Models, More Animals, Describe "Features"
+- Pixel Importance
+"""
