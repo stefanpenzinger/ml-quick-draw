@@ -2,19 +2,20 @@ import json
 import tkinter as tk
 from datetime import datetime
 from tkinter import messagebox
-from PIL import ImageGrab, ImageTk
+from PIL import Image, ImageGrab, ImageTk
 import numpy as np
 
 from rdp import rdp
 
 CANVAS_SIZE = 256
+BITMAP_SIZE = 28
 TITLE = "ML Quick Draw"
 
 root = tk.Tk()
 root.title(TITLE)
 
-canvas = tk.Canvas(root, width=CANVAS_SIZE, height=CANVAS_SIZE, bg="white")
-canvas.pack()
+canvas = tk.Canvas(root, width=CANVAS_SIZE, height=CANVAS_SIZE, bg="black", highlightthickness=0)
+canvas.pack(expand=tk.YES, fill=tk.BOTH)
 
 input_coordinates = []
 output_coordinates = []
@@ -31,12 +32,12 @@ def prepare_new_stroke(event):
 
 
 def draw(event):
-    color = "black"
+    color = "white"
     x, y = event.x, event.y
     input_coordinates[stroke_number].append((x, y))
     x1, y1 = x - 1, y - 1
     x2, y2 = x + 1, y + 1
-    canvas.create_oval(x1, y1, x2, y2, fill=color, outline=color)
+    canvas.create_oval(x1, y1, x2, y2, fill=color, outline=color, width=2)
 
 
 def update_stroke(event):
@@ -74,9 +75,13 @@ def save_drawing_bitmap():
     image = ImageGrab.grab(bbox=(canvas.winfo_rootx(), canvas.winfo_rooty(),
                                  canvas.winfo_rootx() + canvas.winfo_width(),
                                  canvas.winfo_rooty() + canvas.winfo_height()))
-    
-    canvas_data = np.array(image)
-    np.save(file_name, canvas_data)
+
+    resized_image = image.resize((BITMAP_SIZE, BITMAP_SIZE), Image.LANCZOS)
+    gray_scale_image = np.mean(np.array(resized_image), axis=2)
+    gray_scale_image_flattened = gray_scale_image.flatten()
+
+    np.save(file_name, gray_scale_image_flattened)
+    msg = messagebox.showinfo(TITLE, "Saved successfully!")
 
 
 save_button = tk.Button(root, text="Save Simplified", command=save_drawing_simplified)
