@@ -2,6 +2,8 @@ import json
 import tkinter as tk
 from datetime import datetime
 from tkinter import messagebox
+from PIL import ImageGrab, ImageTk
+import numpy as np
 
 from rdp import rdp
 
@@ -54,9 +56,9 @@ def save_simplified_stroke():
     print(output_coordinates)
 
 
-def save_drawing():
+def save_drawing_simplified():
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-    file_name = f"drawings/{timestamp}-picture.ndjson"
+    file_name = f"drawings/{timestamp}-simplified-picture.ndjson"
     output_coordinates_json = {"drawing": output_coordinates}
 
     with open(file_name, "w") as file_stream:
@@ -64,7 +66,23 @@ def save_drawing():
     msg = messagebox.showinfo(TITLE, "Saved successfully!")
 
 
-save_button = tk.Button(root, text="Save", command=save_drawing)
+def save_drawing_bitmap():
+    timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    file_name = f"drawings/{timestamp}-bitmap-picture.npy"
+
+    canvas.update()
+    image = ImageGrab.grab(bbox=(canvas.winfo_rootx(), canvas.winfo_rooty(),
+                                 canvas.winfo_rootx() + canvas.winfo_width(),
+                                 canvas.winfo_rooty() + canvas.winfo_height()))
+    
+    canvas_data = np.array(image)
+    np.save(file_name, canvas_data)
+
+
+save_button = tk.Button(root, text="Save Simplified", command=save_drawing_simplified)
+save_button.pack(pady=10)
+
+save_button = tk.Button(root, text="Save Bitmap", command=save_drawing_bitmap)
 save_button.pack(pady=10)
 
 canvas.bind('<Button-1>', prepare_new_stroke)
