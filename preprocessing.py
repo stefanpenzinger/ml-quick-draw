@@ -27,7 +27,6 @@ def __get_datapoint_percentage_of_stroke__(
 
 
 def __feature_extraction__(df_in: pd.DataFrame):
-    # based on https://github.com/keisukeirie/quickdraw_prediction_model
     df_in["datapointCount"] = df_in["x"].apply(lambda x: len(x))
     df_in["strokeCount"] = df_in["drawing"].apply(lambda drawing: len(drawing))
 
@@ -67,13 +66,9 @@ def __extract_coordinates_from_drawing__(drawing: list, coordinate_idx: int) -> 
 def __parse_simplified_drawings__(file_name: str) -> pd.DataFrame:
     drawings = []
     with open(file_name, "r") as file_stream:
-        count = 0
         for line in file_stream:
             obj = json.loads(line)
             drawings.append(obj)
-            count += 1
-            if count >= 1000:
-                break
     df = pd.DataFrame(drawings)
     df["x"] = df["drawing"].apply(
         lambda drawing: __extract_coordinates_from_drawing__(drawing, 0)

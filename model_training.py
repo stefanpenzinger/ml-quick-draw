@@ -141,6 +141,6 @@ def train_gallery_dependent(df_in: pd.DataFrame, df_in_drew: pd.DataFrame):
     )
     data_drew = df_in_drew.iloc[:, 5:]
 
-    __train_knn__(data_train, data_test, target_train, target_test, data_drew)
+    # __train_knn__(data_train, data_test, target_train, target_test, data_drew)
     __train_random_forest__(data_train, data_test, target_train, target_test, data_drew)
     __train_decision_tree__(data_train, data_test, target_train, target_test, data_drew)
