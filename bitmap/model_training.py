@@ -45,6 +45,7 @@ def __plot_samples(input_array, rows=4, cols=5, title=""):
         )
         plt.xticks([])
         plt.yticks([])
+    plt.show()
 
 
 def __plot_confusion_matrix(
@@ -82,22 +83,90 @@ def __plot_confusion_matrix(
     plt.tight_layout()
     plt.ylabel("True label")
     plt.xlabel("Predicted label")
+    plt.show()
 
 
 def __train_random_forest(x_train, y_train, x_test, y_test):
-    parameters = {
-        "n_estimators": [10, 20, 40, 60, 80, 100, 120, 140, 160],
-        "max_features": ["auto", 15, 28, 50],
-    }
+    clf_rf = RandomForestClassifier(n_estimators=100, n_jobs=-1, random_state=12345)
+    clf_rf.fit(x_train, y_train)
 
-    clf_rf = RandomForestClassifier(n_jobs=-1, random_state=0)
-    rf = GridSearchCV(clf_rf, parameters, n_jobs=-1)
-    rf.fit(x_train, y_train)
-
-    y_pred_rf = rf.predict(x_test)
+    y_pred_rf = clf_rf.predict(x_test)
     acc_rf = accuracy_score(y_test, y_pred_rf)
     print("Random forest accuracy: ", acc_rf)
-    return rf
+    return clf_rf
+
+
+def __train_knn(x_train, y_train, x_test, y_test):
+    clf_knn = KNeighborsClassifier(n_jobs=-1)
+    clf_knn.fit(x_train, y_train)
+
+    y_pred_knn = clf_knn.predict(x_test)
+    acc_knn = accuracy_score(y_test, y_pred_knn)
+    print("KNN accuracy: ", acc_knn)
+    return clf_knn
+
+
+def __train_svm(x_train, y_train, x_test, y_test):
+    clf_svm = SVC(
+        kernel="rbf", random_state=0
+    )  # using the Gaussian radial basis function
+    clf_svm.fit(x_train, y_train)
+
+    y_pred_svm = clf_svm.predict(x_test)
+    acc_svm = accuracy_score(y_test, y_pred_svm)
+    print("RBF SVM accuracy: ", acc_svm)
+    return clf_svm
+
+
+def __train_mlp(x_train, y_train, x_test, y_test):
+    clf_mlp = MLPClassifier(alpha=0.001, hidden_layer_sizes=(100, 100), random_state=0)
+    clf_mlp.fit(x_train, y_train)
+
+    y_pred_mlp = clf_mlp.predict(x_test)
+    acc_mlp = accuracy_score(y_test, y_pred_mlp)
+    print("MLP accuracy: ", acc_mlp)
+    return clf_mlp
+
+
+def __train_cnn(x_train, y_train, x_test, y_test):
+    # one hot encode outputs
+    y_train_cnn = np_utils.to_categorical(y_train)
+    y_test_cnn = np_utils.to_categorical(y_test)
+    num_classes = y_test_cnn.shape[1]
+
+    # reshape to be [samples][pixels][width][height]
+    x_train_cnn = x_train.reshape(x_train.shape[0], 1, 28, 28).astype("float32")
+    x_test_cnn = x_test.reshape(x_train.shape[0], 1, 28, 28).astype("float32")
+
+    np.random.seed(0)
+
+    model_cnn = Sequential()
+    model_cnn.add(Conv2D(30, (5, 5), input_shape=(1, 28, 28), activation="relu"))
+    model_cnn.add(MaxPooling2D(pool_size=(2, 2)))
+    model_cnn.add(Conv2D(15, (3, 3), activation="relu"))
+    model_cnn.add(MaxPooling2D(pool_size=(2, 2)))
+    model_cnn.add(Dropout(0.2))
+    model_cnn.add(Flatten())
+    model_cnn.add(Dense(128, activation="relu"))
+    model_cnn.add(Dense(50, activation="relu"))
+    model_cnn.add(Dense(num_classes, activation="softmax"))
+    # Compile model
+    model_cnn.compile(
+        loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"]
+    )
+
+    # Fit the model
+    model_cnn.fit(
+        x_train_cnn,
+        y_train_cnn,
+        validation_data=(x_test_cnn, y_test_cnn),
+        epochs=10,
+        batch_size=200,
+    )
+    # Final evaluation of the model
+    scores = model_cnn.evaluate(x_test_cnn, y_test_cnn, verbose=0)
+    print("Final CNN accuracy: ", scores[1])
+    return model_cnn
 
 
 def main():
@@ -107,11 +176,11 @@ def main():
     cat = np.load("data/cat.npy")
     sheep = np.load("data/sheep.npy")
 
-    cat = __add_columns_with_labels(cat, 0)
-    sheep = __add_columns_with_labels(sheep, 1)
+    cat = __add_columns_with_labels(cat, 1)
+    sheep = __add_columns_with_labels(sheep, 0)
 
-    __plot_samples(cat, title="Cat")
-    __plot_samples(sheep, title="Sheep")
+    __plot_samples(cat, 1, 1, title="Cat")
+    __plot_samples(sheep, 1, 1, title="Sheep")
 
     # merge the cat and sheep arrays, and split the features (X) and labels (y). Convert to float32 to save some memory.
     x = np.concatenate((cat[:5000, :-1], sheep[:5000, :-1]), axis=0).astype(
@@ -127,8 +196,13 @@ def main():
     )
 
     rf = __train_random_forest(x_train, y_train, x_test, y_test)
+    knn = __train_knn(x_train, y_train, x_test, y_test)
+    svm = __train_svm(x_train, y_train, x_test, y_test)
+    mlp = __train_mlp(x_train, y_train, x_test, y_test)
+    cnn = __train_cnn(x_train, y_train, x_test, y_test)
 
-    rf.predict()
+    drawing = np.load("drawings/20231229-145630-bitmap-picture.npy").reshape(1, -1)
+    __plot_samples(drawing, 1, 1, title="Drawing")
 
 
 if __name__ == "__main__":

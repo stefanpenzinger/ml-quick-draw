@@ -19,7 +19,7 @@ def __get_direction_of_stroke__(df_row: pd.DataFrame, stroke_n: int) -> float:
 
 
 def __get_datapoint_percentage_of_stroke__(
-        df_row: pd.DataFrame, stroke_n: int
+    df_row: pd.DataFrame, stroke_n: int
 ) -> float:
     if df_row["strokeCount"] <= stroke_n:
         return 0

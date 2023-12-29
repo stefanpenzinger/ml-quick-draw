@@ -44,7 +44,7 @@ def __calculate_accuracy_score__(target, predicted, title):
 
 
 def __train__(
-        data_train, data_test, target_train, target_test, classification, df_in_drew
+    data_train, data_test, target_train, target_test, classification, df_in_drew
 ):
     classification.fit(data_train, target_train)
 
@@ -88,7 +88,7 @@ def __train_knn__(data_train, data_test, target_train, target_test, df_in_drew):
 
 
 def __train_random_forest__(
-        data_train, data_test, target_train, target_test, df_in_drew
+    data_train, data_test, target_train, target_test, df_in_drew
 ):
     print("#### Random Forest")
     parameters_to_tune = {
@@ -113,12 +113,12 @@ def __train_random_forest__(
 
 
 def __train_decision_tree__(
-        data_train, data_test, target_train, target_test, df_in_drew
+    data_train, data_test, target_train, target_test, df_in_drew
 ):
     print("#### Decision Tree")
     parameters_to_tune = {
         "max_depth": [5, 10, 20, 40, 80, 120],
-        "max_features": [2 ** n for n in range(0, 3)],
+        "max_features": [2**n for n in range(0, 3)],
     }
 
     tree_classification = GridSearchCV(
