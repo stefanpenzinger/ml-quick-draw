@@ -31,7 +31,7 @@ def __load_drawing_options__():
     options = []
 
     for option in drawing_file_names:
-        options.append(option.replace("full_numpy_bitmap_", "").replace(".npy", ""))
+        options.append(option.replace(".npy", ""))
 
     print(type(options))
     return options
@@ -56,7 +56,7 @@ def __draw__(event):
 
 
 def update_image_on_dropdown_change(var, index, mode):
-    data_set = np.load("data/full_numpy_bitmap_" + clicked_dropdown_item.get() + ".npy")
+    data_set = np.load("data/" + clicked_dropdown_item.get() + ".npy")
     random_index = np.random.randint(0, len(data_set))
     bitmap = data_set[random_index].reshape((28, 28))
 
