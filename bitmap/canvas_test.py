@@ -91,6 +91,8 @@ def __save_drawing_bitmap__():
         canvas.winfo_rootx(), canvas.winfo_rooty(), canvas.winfo_rootx() + canvas.winfo_width(),
         canvas.winfo_rooty() + canvas.winfo_height(),))
 
+    image.point(lambda x: int(x*1.5))
+
     resized_image = image.resize((BITMAP_SIZE, BITMAP_SIZE), Image.LANCZOS)
     gray_scale_image = np.mean(np.array(resized_image), axis=2)
     gray_scale_image_flattened = gray_scale_image.flatten()
