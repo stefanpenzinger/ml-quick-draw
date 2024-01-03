@@ -19,3 +19,7 @@ Draw! (https://quickdraw.withgoogle.com/). The dataset is available under the fo
 link: https://github.com/googlecreativelab/quickdraw-dataset. The Quick Draw Dataset is a collection of 50 million
 drawings across 345 categories. The drawings were captured as timestamped vectors, tagged with metadata including what
 the player was asked to draw and in which country the player was located.
+
+## Used Sources
+
+- https://github.com/kradolfer/quickdraw-image-recognition
