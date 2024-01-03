@@ -36,5 +36,5 @@ def load_data(
 
 
 def save_model(model, model_name):
-    with open(f"model/{model_name}.pkl", "wb") as f:
+    with open(f"models/{model_name}.pkl", "wb") as f:
         pickle.dump(model, f)
