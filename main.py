@@ -2,6 +2,6 @@ import preprocessing
 import model_training
 
 if __name__ == "__main__":
-    df = preprocessing.read_and_preprocess("data")
+    df = preprocessing.read_and_preprocess("bitmap/data")
     df_drew = preprocessing.read_and_preprocess("drawings")
     model_training.train_gallery_dependent(df, df_drew)

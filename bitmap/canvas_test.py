@@ -84,7 +84,7 @@ def __save_drawing_simplified__():
 
 def __save_drawing_bitmap__():
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-    file_name = f"drawings/{timestamp}-bitmap-picture.npy"
+    file_name = f"drawings/{timestamp}-{clicked_dropdown_item.get()}-bitmap-picture.npy"
 
     canvas.update()
     image = ImageGrab.grab(bbox=(
