@@ -214,4 +214,5 @@ TODO:
 - more drawings -> lower accuracy
 - Grid Search, Cross Validation, ROC Curve, AUC, Confusion Matrix, Compare Models, More Animals, Describe "Features"
 - Pixel Importance
+- Sample number comparison (1000, 2000, 3000, 4000, 5000, etc.) measured in model performance 
 """
