@@ -124,12 +124,19 @@ def __add_dropdown_to_canvas__(dropdown_items: list):
 
 
 def __add_buttons_to_canvas__():
+    clear_button = tk.Button(root, text="Clear", command=__clear_canvas__)
+    clear_button.pack(side=tk.LEFT, fill=tk.BOTH, padx=20, pady=10)
+
     save_button = tk.Button(root, text="Save Simplified", command=__save_drawing_simplified__)
     save_button.config(state=tk.DISABLED)
     save_button.pack(side=tk.LEFT, fill=tk.BOTH, padx=20, pady=10)
 
     save_button = tk.Button(root, text="Save Bitmap", command=__save_drawing_bitmap__)
     save_button.pack(side=tk.RIGHT, fill=tk.BOTH, padx=20, pady=10)
+
+
+def __clear_canvas__():
+    canvas.delete(tk.ALL)
 
 
 def __bind_user_actions__():
