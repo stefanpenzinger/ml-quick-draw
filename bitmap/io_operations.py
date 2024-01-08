@@ -2,16 +2,15 @@ import glob
 import pickle
 
 import numpy as np
-import pandas as pd
+
+from plot import plot_samples
 
 
 def __add_columns_with_labels(df, label):
     return np.c_[df, label * np.ones(len(df))]
 
 
-def load_data(
-        path: str, num_samples_per_class: int
-) -> (dict[int, str], pd.DataFrame, pd.DataFrame):
+def load_data(path: str, num_samples_per_class: int, should_plot: bool = False):
     labels = {}
     bitmaps_x = []
     bitmaps_y = []
@@ -23,10 +22,11 @@ def load_data(
         bitmap = np.load(file_name)
         bitmap_labeled = __add_columns_with_labels(bitmap, index)
 
+        if should_plot:
+            plot_samples(bitmap_labeled, 5, 5, title=drawing_name)
+
         bitmaps_x.append(bitmap_labeled[:num_samples_per_class, :-1])
         bitmaps_y.append(bitmap_labeled[:num_samples_per_class, -1])
-
-        # __plot_samples(bitmap_labeled, 5, 5, title=drawing_name)
 
     # merge the arrays, and split the features (X) and labels (y). Convert to float32 to save some memory.
     x = np.concatenate(bitmaps_x, axis=0).astype("float32")  # all columns but the last
