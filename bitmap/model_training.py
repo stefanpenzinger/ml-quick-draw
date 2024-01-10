@@ -46,7 +46,9 @@ def train_random_forest(x_train, y_train, x_test, num_samples) -> Model:
 
     importance = model.clf.best_estimator_.feature_importances_
     importance = importance.reshape((28, 28))
+
     plt.matshow(importance)
+    plt.colorbar()
     plt.title("RF pixel importance\n")
     plt.show()
 
