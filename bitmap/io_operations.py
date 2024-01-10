@@ -4,18 +4,23 @@ import pickle
 import numpy as np
 
 from plot import plot_samples
+from constants import (
+    CNN_KEY,
+    MODEL_PATH,
+    DATA_PATH,
+)
 
 
 def __add_columns_with_labels(df, label):
     return np.c_[df, label * np.ones(len(df))]
 
 
-def load_data(path: str, num_samples_per_class: int, should_plot: bool = False):
+def load_data(num_samples_per_class: int, should_plot: bool = False):
     labels = {}
     bitmaps_x = []
     bitmaps_y = []
 
-    for index, file_name in enumerate(glob.glob(f"{path}/*.npy")):
+    for index, file_name in enumerate(glob.glob(f"{DATA_PATH}/*.npy")):
         drawing_name = file_name.split("\\")[-1].split(".")[0]
         labels[index] = drawing_name
 
@@ -36,5 +41,8 @@ def load_data(path: str, num_samples_per_class: int, should_plot: bool = False):
 
 
 def save_model(model, model_name):
-    with open(f"models/{model_name}.pkl", "wb") as f:
-        pickle.dump(model, f)
+    if model_name == CNN_KEY:
+        model.save(f"{MODEL_PATH}/{model_name}")
+    else:
+        with open(f"{MODEL_PATH}/{model_name}.pkl", "wb") as f:
+            pickle.dump(model, f)

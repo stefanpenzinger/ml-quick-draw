@@ -9,11 +9,13 @@ from model_training import (
     train_cnn,
 )
 from model_evaluation import evaluate_best_model
+from constants import (
+    RF_KEY,
+    KNN_KEY,
+    MLP_KEY,
+    CNN_KEY,
+)
 
-RF_KEY = "rf"
-KNN_KEY = "knn"
-MLP_KEY = "mlp"
-CNN_KEY = "cnn"
 NUM_SAMPLES = [2000, 5000, 10000, 15000]
 
 if __name__ == "__main__":
@@ -26,7 +28,7 @@ if __name__ == "__main__":
     for index, num_samples in enumerate(NUM_SAMPLES):
         print(f"#### Using {num_samples} samples")
 
-        labels, x, y = load_data("data", num_samples, should_plot=index == 0)
+        labels, x, y = load_data(num_samples, should_plot=index == 0)
 
         # 50:50 train/test split (divide by 255 to obtain normalized values between 0 and 1)
         x_train, x_test, y_train, y_test = train_test_split(
@@ -34,11 +36,11 @@ if __name__ == "__main__":
         )
         y_test_per_sample_size[num_samples] = y_test
 
-        trained_models[RF_KEY].append(
-            train_random_forest(x_train, y_train, x_test, num_samples)
-        )
-        trained_models[KNN_KEY].append(train_knn(x_train, y_train, x_test, num_samples))
-        trained_models[MLP_KEY].append(train_mlp(x_train, y_train, x_test, num_samples))
+        # trained_models[RF_KEY].append(
+        #    train_random_forest(x_train, y_train, x_test, num_samples)
+        # )
+        # trained_models[KNN_KEY].append(train_knn(x_train, y_train, x_test, num_samples))
+        # trained_models[MLP_KEY].append(train_mlp(x_train, y_train, x_test, num_samples))
         trained_models[CNN_KEY].append(
             train_cnn(x_train, y_train, x_test, y_test, num_samples)
         )
