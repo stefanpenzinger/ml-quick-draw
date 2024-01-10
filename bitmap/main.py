@@ -36,11 +36,11 @@ if __name__ == "__main__":
         )
         y_test_per_sample_size[num_samples] = y_test
 
-        # trained_models[RF_KEY].append(
-        #    train_random_forest(x_train, y_train, x_test, num_samples)
-        # )
-        # trained_models[KNN_KEY].append(train_knn(x_train, y_train, x_test, num_samples))
-        # trained_models[MLP_KEY].append(train_mlp(x_train, y_train, x_test, num_samples))
+        trained_models[RF_KEY].append(
+            train_random_forest(x_train, y_train, x_test, num_samples)
+        )
+        trained_models[KNN_KEY].append(train_knn(x_train, y_train, x_test, num_samples))
+        trained_models[MLP_KEY].append(train_mlp(x_train, y_train, x_test, num_samples))
         trained_models[CNN_KEY].append(
             train_cnn(x_train, y_train, x_test, y_test, num_samples)
         )
