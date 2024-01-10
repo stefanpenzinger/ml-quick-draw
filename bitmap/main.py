@@ -1,4 +1,3 @@
-import pandas as pd
 from keras import backend as keras_backend
 from sklearn.model_selection import train_test_split
 
@@ -45,8 +44,3 @@ if __name__ == "__main__":
         )
 
     evaluate_best_model(labels, trained_models, y_test_per_sample_size)
-
-"""
-TODO:
-- Grid Search, Cross Validation
-"""
