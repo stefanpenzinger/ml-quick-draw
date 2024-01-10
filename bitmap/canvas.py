@@ -50,7 +50,7 @@ def __save_drawing_bitmap():
         return
 
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-    file_name = f"../drawings/{timestamp}-{clicked_example_item.get()}-bitmap-picture.npy"
+    file_name = f"drawings/{timestamp}-{clicked_example_item.get()}-bitmap-picture.npy"
 
     gray_scale_image_flattened = __create_bitmap()
 
@@ -111,7 +111,7 @@ def __predict():
     if clicked_drawing_item.get() == "Predict canvas":
         data_to_predict = __create_bitmap()
     else:
-        data_to_predict = np.load("../drawings/" + clicked_drawing_item.get())
+        data_to_predict = np.load("drawings/" + clicked_drawing_item.get())
     data_to_predict = data_to_predict.reshape(1, -1)
     resized_data = data_to_predict / 255
     model_options = ["knn", "rf", "mlp", "cnn"]
