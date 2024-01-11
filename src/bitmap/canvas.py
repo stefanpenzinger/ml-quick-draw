@@ -17,7 +17,9 @@ TITLE = "ML Quick Draw"
 root = tk.Tk()
 root.title(TITLE)
 
-canvas = tk.Canvas(root, width=CANVAS_SIZE, height=CANVAS_SIZE, bg="black", highlightthickness=0)
+canvas = tk.Canvas(
+    root, width=CANVAS_SIZE, height=CANVAS_SIZE, bg="black", highlightthickness=0
+)
 example_picture_label = tk.Label(root, image=None)
 
 knn_value = tk.StringVar()
@@ -40,7 +42,7 @@ clicked_drawing_item = tk.StringVar()
 
 
 def __load_example_drawing_options():
-    loaded_options = os.listdir("./data")
+    loaded_options = os.listdir("data")
     adapted_options = []
 
     for option in loaded_options:
@@ -75,9 +77,14 @@ def __save_drawing_bitmap():
 
 def __create_bitmap():
     canvas.update()
-    image = ImageGrab.grab(bbox=(
-        canvas.winfo_rootx(), canvas.winfo_rooty(), canvas.winfo_rootx() + canvas.winfo_width(),
-        canvas.winfo_rooty() + canvas.winfo_height(),))
+    image = ImageGrab.grab(
+        bbox=(
+            canvas.winfo_rootx(),
+            canvas.winfo_rooty(),
+            canvas.winfo_rootx() + canvas.winfo_width(),
+            canvas.winfo_rooty() + canvas.winfo_height(),
+        )
+    )
 
     image.point(lambda x: int(x * 10))
 
@@ -97,10 +104,14 @@ def main():
     __add_buttons_to_canvas()
     __init_canvas()
 
-    dropdown_example_drawings = tk.OptionMenu(root, clicked_example_item, *example_file_options)
+    dropdown_example_drawings = tk.OptionMenu(
+        root, clicked_example_item, *example_file_options
+    )
     dropdown_example_drawings.grid(row=0, column=1, sticky="nsew")
 
-    dropdown_available_drawings = tk.OptionMenu(root, clicked_drawing_item, *drawing_file_options)
+    dropdown_available_drawings = tk.OptionMenu(
+        root, clicked_drawing_item, *drawing_file_options
+    )
     dropdown_available_drawings.grid(row=5, column=0, sticky="nsew")
 
     prediction_button = tk.Button(root, text="Predict", command=__predict)
@@ -130,7 +141,12 @@ def __predict():
         data_to_predict = np.load("drawings/" + clicked_drawing_item.get())
     data_to_predict = data_to_predict.reshape(1, -1)
     resized_data = data_to_predict / 255
-    model_options = [constants.KNN_KEY, constants.RF_KEY, constants.MLP_KEY, constants.CNN_KEY]
+    model_options = [
+        constants.KNN_KEY,
+        constants.RF_KEY,
+        constants.MLP_KEY,
+        constants.CNN_KEY,
+    ]
 
     for model in model_options:
         # predict with cnn
