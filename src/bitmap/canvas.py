@@ -44,7 +44,8 @@ clicked_drawing_item = tk.StringVar()
 
 # Loads all drawing a user made in order to predict it with a model
 def __load_example_drawing_options():
-    loaded_options = os.listdir("data")
+    directory_path = "data"
+    loaded_options = [file for file in os.listdir(directory_path) if file.endswith(".npy")]
     adapted_options = []
 
     for option in loaded_options:
@@ -101,9 +102,9 @@ def __create_bitmap():
 
 
 def main():
-    drawing_file_options = ["Predict canvas"]
-    for further_option in os.listdir("drawings"):
-        drawing_file_options.append(further_option)
+    directory_path = "drawings"
+    drawing_file_options = ["Predict canvas"] + [further_option for further_option in os.listdir(directory_path) if
+                                                 further_option.endswith(".npy")]
     clicked_drawing_item.set(drawing_file_options[0])
     example_file_options = __load_example_drawing_options()
     clicked_example_item.set("What will you draw?")
