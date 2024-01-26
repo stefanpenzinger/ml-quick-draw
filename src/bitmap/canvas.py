@@ -14,6 +14,7 @@ CANVAS_SIZE = 256
 BITMAP_SIZE = 28
 TITLE = "ML Quick Draw"
 
+# Here the canvas with and the grid for the canvas is defined
 root = tk.Tk()
 root.title(TITLE)
 
@@ -41,6 +42,7 @@ clicked_model_item = tk.StringVar()
 clicked_drawing_item = tk.StringVar()
 
 
+# Loads all drawing a user made in order to predict it with a model
 def __load_example_drawing_options():
     loaded_options = os.listdir("data")
     adapted_options = []
@@ -59,6 +61,7 @@ def __draw(event):
     canvas.create_oval(x1, y1, x2, y2, fill=color, outline=color, width=6)
 
 
+# Save the current drawing
 def __save_drawing_bitmap():
     drawing_name = clicked_example_item.get()
 
@@ -75,6 +78,10 @@ def __save_drawing_bitmap():
     msg = messagebox.showinfo(TITLE, "Saved successfully!")
 
 
+# Create a bitmap out of the current canvas
+# This only worked on a 32 inch monitor and not on a laptop screen
+# This can be that the pixel density on the laptop is higher than on the external monitor
+# So if you want to try, do it on a external monitor :-)
 def __create_bitmap():
     canvas.update()
     image = ImageGrab.grab(
@@ -126,6 +133,7 @@ def __init_canvas():
     canvas.grid(row=1, column=1, rowspan=4, sticky="nsew")
 
 
+# Adds button to the canvas
 def __add_buttons_to_canvas():
     clear_button = tk.Button(root, text="Clear", command=__clear_canvas)
     clear_button.grid(row=0, column=0, sticky="nsew")
@@ -134,6 +142,7 @@ def __add_buttons_to_canvas():
     save_button.grid(row=0, column=2, sticky="nsew")
 
 
+# Predicts the drawing based on the chosen model
 def __predict():
     if clicked_drawing_item.get() == "Predict canvas":
         data_to_predict = __create_bitmap()
@@ -170,6 +179,7 @@ def __predict():
             __update_label(model, predicted_index)
 
 
+# This method updates the labels when a model is predicted
 def __update_label(model_name, index):
     print(type(index))
     animal = __load_example_drawing_options()[index]
