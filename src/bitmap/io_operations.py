@@ -15,13 +15,18 @@ def __add_columns_with_labels(df, label):
     return np.c_[df, label * np.ones(len(df))]
 
 
+# loads bitmaps from the data folder, and returns them as a numpy array
 def load_data(num_samples_per_class: int, should_plot: bool = False):
     labels = {}
     bitmaps_x = []
     bitmaps_y = []
 
     for index, file_name in enumerate(glob.glob(f"{DATA_PATH}/*.npy")):
-        drawing_name = file_name.split("\\")[-1].split(".")[0]
+        # loop through all npy-files in the data folder
+
+        drawing_name = file_name.split("\\")[-1].split(".")[
+            0
+        ]  # get name of drawing (e.g. "cat" from cat.npy)
         labels[index] = drawing_name
 
         bitmap = np.load(file_name)

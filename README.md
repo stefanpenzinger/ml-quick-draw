@@ -3,14 +3,9 @@
 Machine Learning Project for the course "Machine Learning" at FH Hagenberg with the Google "Quick, Draw!"
 dataset (https://github.com/googlecreativelab/quickdraw-dataset)
 
-We want to evaluate the performance of detecting a picture a user draws on his electronic device, such as a computer,
-with different various kinds of machine learning (ML) algorithms. The data the user draws is available as a bitmap.
-
 ## Goal
 
-We want to know how different ML algorithms perform with different hyper-parameters and give an analysis how different
-settings impact the performance of the trained model. The used models are compared with each other, and the goal is to
-use the “easiest” model to classify those drawings.
+The aim of this project was to develop a system capable of recognizing drawings, especially those depicting specific animals. To achieve this goal, different types of models were used, and their respective accuracy was compared. Users were able to make sketches of animals on a canvas, which transforms the pictures in the necessary format. The system then analyses these drawings and makes predictions about the animals they represent.
 
 ## Dataset
 

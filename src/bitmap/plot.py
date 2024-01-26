@@ -3,13 +3,10 @@ import numpy as np
 from sklearn.metrics import confusion_matrix
 
 
+# Function to plot 28x28 pixel drawings that are stored in a numpy array.
+# Specify how many rows and cols of pictures to display (default 4x5).
+# If the array contains fewer images than subplots selected, surplus subplots remain empty.
 def plot_samples(input_array, rows=4, cols=5, title=""):
-    """
-    Function to plot 28x28 pixel drawings that are stored in a numpy array.
-    Specify how many rows and cols of pictures to display (default 4x5).
-    If the array contains fewer images than subplots selected, surplus subplots remain empty.
-    """
-
     fig, ax = plt.subplots(figsize=(cols, rows))
     ax.axis("off")
     plt.title(f"{title}\n")

@@ -21,6 +21,7 @@ class Model:
     num_samples: int
 
 
+# trains a model and predicts with the test data
 def __train_scikit_model(
         x_train, y_train, x_test, clf: GridSearchCV, num_samples
 ) -> Model:

@@ -15,11 +15,15 @@ def evaluate_best_model(labels, trained_models, y_test_per_sample_size):
     print("#### Evaluating best model")
     acc_scores = pd.DataFrame()
     for model_type, models in trained_models.items():
+        # loop through all trained model types
+
         print(f"### {model_type}")
         best_acc = 0
         best_model = None
 
         for model in models:
+            # loop through all models of this type
+
             model_name = f"{model_type} ({model.num_samples} samples)"
             acc = __get_test_score(
                 y_test_per_sample_size[model.num_samples], model.y_test_pred, model_name
