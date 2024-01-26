@@ -160,5 +160,7 @@ cython_debug/
 #.idea/
 
 src/bitmap/data/
+!src/bitmap/data/README.md
 src/bitmap/drawings/
+!src/bitmap/drawings/README.md
 .idea/
